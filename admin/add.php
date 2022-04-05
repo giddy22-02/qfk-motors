@@ -83,6 +83,13 @@
     } else {
         $price = $_POST['price'];
     }
+    // check price
+    if(empty($_POST['price'])) {
+        $errors['price'] = 'price is required <br />';
+    } else {
+        $photo = $_POST['photo'];
+    }
+
 
 
     if(array_filter($errors)) {
@@ -100,10 +107,14 @@
       $drive = mysqli_real_escape_string($conn, $_POST['drive']);
       $exterior = mysqli_real_escape_string($conn, $_POST['exterior']);
       $price = mysqli_real_escape_string($conn, $_POST['price']);
+      $photo = $_FILES['photo']['name'];
+      $tmp_name = $_FILES['photo']['tmp_name'];
+
 
       // create sql
-      $sql = "INSERT INTO listings(stock, make, model, manufacture, mileage, transmission, fuel, body, drive, exterior, price)
-      VALUES('$stock', '$make', '$model', '$manufacture', '$mileage', '$transmission', '$fuel', '$body', '$drive', '$exterior', '$price')";
+       move_uploaded_file($tmp_name, "uploads/$photo");
+      $sql = "INSERT INTO listings(stock, make, model, manufacture, mileage, transmission, fuel, body, drive, exterior, price,photo)
+      VALUES('$stock', '$make', '$model', '$manufacture', '$mileage', '$transmission', '$fuel', '$body', '$drive', '$exterior', '$price','$photo')";
 
       // save to db and check
       if(mysqli_query($conn, $sql)){
@@ -140,7 +151,7 @@
                         <h1>Add Listings</h1>
                     </header>
                     <div class="shadow-sm bg-white p-4 mt-4">
-                        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST" enctype="multipart/form-data">
+                        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST"  enctype="multipart/form-data" lass="p-3">
                             <div class="">
                                 <!-- stock -->
                                 <div>

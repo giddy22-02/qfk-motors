@@ -1,7 +1,7 @@
 <?php
 
     // connect to database
-    $conn = mysqli_connect('localhost', 'martin', 'pass25WORD', 'qfk-motors');
+    $conn = mysqli_connect('localhost', 'root', '', 'qfk-motors');
 
     // check connection
     if(!$conn) {
